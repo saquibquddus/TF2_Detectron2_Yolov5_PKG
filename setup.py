@@ -3,12 +3,12 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-PROJECT_NAME = "TDY_PKG"
+PROJECT_NAME = "TF2_Detectron2_Yolov5_PKG"
 USER_NAME = "saquibquddus"
 
 setuptools.setup(
-    name=f"{PROJECT_NAME}-{USER_NAME}",
-    version="1.1.1",
+    name="TDY_PKG",
+    version="1.1.2",
     author=USER_NAME,
     author_email="sakibquddus@gmail.com",
     description="its an implimentation of TF-2 , Detectron and yolov5",
