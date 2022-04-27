@@ -44,11 +44,11 @@ Go to : http://127.0.0.1:9502/
 
 Step 5:
 Upload Image and select Framework and Model. 
-![UI image](UI.JPG)
+![UI Image](https://github.com/saquibquddus/TF2_Detectron2_Yolov5_PKG/blob/master/UI.JPG?raw=true)
 
 Step 6:
 Click On Predict.(The model will get download in runtime to do prediction)
-![UI image](Predicted_UI.JPG)
+![Predicted UI image](https://github.com/saquibquddus/TF2_Detectron2_Yolov5_PKG/blob/master/Predicted_UI.JPG?raw=true)
 
 
 
