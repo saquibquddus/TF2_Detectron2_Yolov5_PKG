@@ -8,7 +8,7 @@ USER_NAME = "saquibquddus"
 
 setuptools.setup(
     name="TDY_PKG",
-    version="1.1.2",
+    version="1.1.3",
     author=USER_NAME,
     author_email="sakibquddus@gmail.com",
     description="its an implimentation of TF-2 , Detectron and yolov5",

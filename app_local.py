@@ -4,16 +4,16 @@ from asyncio.windows_events import NULL
 from flask_cors import CORS, cross_origin
 import time
 
-from detectron2_webapp.ObjectDetector import DetectorDetectron
-from detectron2_webapp.com_ineuron_utils.utils import decodeImagedetectron
+from src.detectron2_webapp.ObjectDetector import DetectorDetectron
+from src.detectron2_webapp.com_ineuron_utils.utils import decodeImagedetectron
 
-from tf2_webapp.com_in_ineuron_ai_utils.utils import decodeImagetf2
-from tf2_webapp.detect import PredictorTF2
-from tf2_webapp.object_detection.utils import label_map_util
+from src.tf2_webapp.com_in_ineuron_ai_utils.utils import decodeImagetf2
+from src.tf2_webapp.detect import PredictorTF2
+from src.tf2_webapp.object_detection.utils import label_map_util
 
 
-from yolo_webapp.com_ineuron_apparel.com_ineuron_utils.utils import decodeImageyolov5
-from yolo_webapp.detect import DetectorYolov5
+from src.yolo_webapp.com_ineuron_apparel.com_ineuron_utils.utils import decodeImageyolov5
+from src.yolo_webapp.detect import DetectorYolov5
 
 
 os.putenv('LANG', 'en_US.UTF-8')

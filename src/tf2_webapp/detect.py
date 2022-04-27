@@ -155,6 +155,8 @@ class PredictorTF2:
             use_normalized_coordinates=True,
             line_thickness=3)
 
+        print(output_dict['detection_boxes'])
+        print(output_dict['detection_classes'])
         output_filename = 'predicted_output_image.jpg'
         cv2.imwrite(output_filename, cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB))
         opencodedbase64 = encodeImageIntoBase64("predicted_output_image.jpg")

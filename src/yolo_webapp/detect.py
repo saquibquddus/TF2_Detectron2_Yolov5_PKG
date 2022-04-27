@@ -7,20 +7,6 @@ sys.path.insert(0, ROOT)
 import argparse
 import torch
 import torch.backends.cudnn as cudnn
-
-# FILE = Path(__file__).resolve()
-# ROOT = FILE.parents[0]  # YOLOv5 root directory
-# ROOT="C:/Users/DELL/anaconda3/envs/test_new_v3/Lib/site-packages/yolo_webapp"
-# if str(ROOT) not in sys.path:
-#     sys.path.append(str(ROOT))  # add ROOT to PATH
-# print(Path.cwd())
-# print(ROOT)
-# os.chdir('c:')
-# print(Path.cwd())
-# ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
-# print(os.getcwd())
-# print(ROOT)
-
 from models.common import DetectMultiBackend
 from utils.datasets import IMG_FORMATS, VID_FORMATS, LoadImages, LoadStreams
 from utils.general import (LOGGER, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
@@ -32,13 +18,6 @@ from com_ineuron_apparel.com_ineuron_utils import utils
 class DetectorYolov5():
 
     def __init__(self, filename,model_n):
-        # sys.path.insert(0, "C:/Users/DELL/anaconda3/envs/test_new_v3/Lib/site-packages/yolo_webapp")
-        # self.weights="./com_ineuron_apparel/predictor_yolo_detector/best.pt"  # model.pt path(s)
-        # self.weights="./com_ineuron_apparel/predictor_yolo_detector/weights/yolov5s.pt"
-        # self.weights=ROOT+"/com_ineuron_apparel/predictor_yolo_detector/weights/yolov5n.pt"
-        # self.weights="./com_ineuron_apparel/predictor_yolo_detector/weights/yolov5m.pt"
-        # self.weights="./com_ineuron_apparel/predictor_yolo_detector/weights/yolov5l.pt"
-        # self.weights="./yolo_webapp/com_ineuron_apparel/predictor_yolo_detector/weights/yolov5x.pt"
         if model_n=="yolov5n":
             print("\nThe model selected is yolov5n\n")
             self.weights="yolov5n.pt"
@@ -58,10 +37,6 @@ class DetectorYolov5():
             print("PLEASE SELECT THE YOLOv5 MODEL")
         self.source=filename
         self.data='utils/yolo_utils/coco128.yaml'
-        # self.source=ROOT+"/com_ineuron_apparel/predictor_yolo_detector/inference/images/"+filename  # file/dir/URL/glob, 0 for webcam
-        # self.data=ROOT+'/data/coco128.yaml'
-        # self.data='./data/data.yaml'  # dataset.yaml path
-        # self.data=None
         self.imgsz=(416, 416)  # inference size (height, width)
         self.conf_thres=0.5  # confidence threshold
         self.iou_thres=0.45  # NMS IOU threshold
@@ -80,12 +55,14 @@ class DetectorYolov5():
         self.project=ROOT+"/com_ineuron_apparel/predictor_yolo_detector/inference/output" # save results to project/name
         self.name='output_image.jpg'  # save results to project/name
         self.exist_ok=False  # existing project/name ok, do not increment
-        self.line_thickness=3  # bounding box thickness (pixels)
+        self.line_thickness=1  # bounding box thickness (pixels)
         self.hide_labels=False  # hide labels
         self.hide_conf=False  # hide confidences
         self.half=False  # use FP16 half-precision inference
         self.dnn=False  # use OpenCV DNN for ONNX inference
-
+        self.pred_counter=0
+        self.bboxes=[]
+        
 
     def run(self):
         weights= self.weights
@@ -200,6 +177,7 @@ class DetectorYolov5():
                         s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
                     # Write results
+                    
                     for *xyxy, conf, cls in reversed(det):
                         if save_txt:  # Write to file
                             xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
@@ -209,11 +187,13 @@ class DetectorYolov5():
 
                         if save_img or save_crop or view_img:  # Add bbox to image
                             c = int(cls)  # integer class
+                            self.pred_counter+=1
                             label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
+                            self.bboxes.append(xyxy)
                             annotator.box_label(xyxy, label, color=colors(c, True))
                             if save_crop:
                                 save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-
+                        
                 # Stream results
                 im0 = annotator.result()
                 if view_img:
@@ -243,6 +223,7 @@ class DetectorYolov5():
             # Print time (inference-only)
             LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s)')
 
+        
         # Print results
         t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
         LOGGER.info(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS per image at shape {(1, 3, *imgsz)}' % t)
@@ -255,6 +236,9 @@ class DetectorYolov5():
     def detect_action(self):
         with torch.no_grad():
             self.run()
+        print(f"Number of Prediction= {self.pred_counter}")
+        print(self.bboxes)
+        # print(type(self.bboxes.tolist()))
         bgr_image = cv2.imread(ROOT+"/com_ineuron_apparel/predictor_yolo_detector/inference/output/output_image.jpg")
         # cv2.imwrite(ROOT+'/predicted_output_image.jpg', bgr_image)
         cv2.imwrite('predicted_output_image.jpg', bgr_image)

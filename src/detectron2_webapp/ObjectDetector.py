@@ -95,8 +95,8 @@ class DetectorDetectron:
 		predictor = DefaultPredictor(self.cfg)
 		im = cv.imread(file)
 		outputs = predictor(im)
-		# print(outputs["instances"].pred_classes)
-		# print(outputs["instances"].pred_boxes)
+		print("Number of prediction =", len(outputs["instances"].pred_classes.tolist()))
+		print(outputs["instances"].pred_boxes)
 		metadata = MetadataCatalog.get(self.cfg.DATASETS.TRAIN[0])
 
 		# visualise

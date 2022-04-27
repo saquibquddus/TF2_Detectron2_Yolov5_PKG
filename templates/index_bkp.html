@@ -11,7 +11,7 @@
 	<style>
 
 		.iupload h3 {
-			color: hsl(227, 66%, 25%);
+			color: #1b2d6b;
 			font-size: 30px;
 			font-weight: 700;
 		}
@@ -220,9 +220,9 @@ Model: <select name="model" id="model">
     <option value="" selected="selected">Please select framework first</option>
   </select>
   <br><br>
-<!-- Detection: <select name="detection" id="detection">
+Detection: <select name="detection" id="detection">
     <option value="" selected="selected">Please select model first</option>
-  </select> -->
+  </select>
    <input type="text" name="detectionData" value="" id="detectionData" ><br>
   <br><br>
   <!--<input type="submit" id="submit" value="Submit"> -->
@@ -417,7 +417,7 @@ var frameworkObject = {
 window.onload = function() {
   var frameworkSel = document.getElementById("framework");
   var modelSel = document.getElementById("model");
-//   var detectionSel = document.getElementById("detection");
+  var detectionSel = document.getElementById("detection");
   
   
   for (var x in frameworkObject) {
@@ -425,32 +425,32 @@ window.onload = function() {
   }
   frameworkSel.onchange = function() {
     //empty Detection- and Model- dropdowns
-    // detectionSel.length = 1;
+    detectionSel.length = 1;
     modelSel.length = 1;
     //display correct values
     for (var y in frameworkObject[this.value]) {
       modelSel.options[modelSel.options.length] = new Option(y, y);
     }
   }
-//   modelSel.onchange = function() {
+  modelSel.onchange = function() {
   
-//     //empty Detection dropdown
-//     detectionSel.length = 1;
-//     //display correct values
-//     var z = frameworkObject[frameworkSel.value][this.value];
-//     for (var i = 0; i < z.length; i++) {	
-//       detectionSel.options[detectionSel.options.length] = new Option(z[i], z[i]);
-//     }
+    //empty Detection dropdown
+    detectionSel.length = 1;
+    //display correct values
+    var z = frameworkObject[frameworkSel.value][this.value];
+    for (var i = 0; i < z.length; i++) {	
+      detectionSel.options[detectionSel.options.length] = new Option(z[i], z[i]);
+    }
 	
-// 	if(modelSel.value=="Others"){
-// 	 $('input[type=text]').show();
-// 	  $('#detection').hide();
-// 	}
-// 	else{
-// 	 $('input[type=text]').hide();
-// 	  $('#detection').show();
-// 	}
-//   }
+	if(modelSel.value=="Others"){
+	 $('input[type=text]').show();
+	  $('#detection').hide();
+	}
+	else{
+	 $('input[type=text]').hide();
+	  $('#detection').show();
+	}
+  }
   
   
 }
